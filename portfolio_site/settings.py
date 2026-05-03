@@ -62,6 +62,7 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 MONGODB_URI = os.environ.get('MONGODB_URI', 'localhost')
+print(f"DEBUG: Using MONGODB_URI: {MONGODB_URI[:15]}...") # Masked for security
 
 DATABASES = {
     'default': {
