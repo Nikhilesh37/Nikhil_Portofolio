@@ -10,7 +10,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key-change-it
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,nikhil-portofolio.onrender.com').split(',')]
+ALLOWED_HOSTS = ['*']
+# In production, you should eventually tighten this to your specific domain for security.
 
 
 # Application definition
