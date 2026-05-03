@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.name|default:"Nikhil Gogineni" }} | Portfolio</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
+</head>
+<body class="light-mode">
+    <header>
+        <nav>
+            <div class="logo">NIKHIL_GOGINENI_LOG</div>
+            <ul>
+                <li><a href="#about">/about</a></li>
+                <li><a href="#experience">/experience</a></li>
+                <li><a href="#projects">/projects</a></li>
+                <li><a href="#skills">/skills</a></li>
+                <li><a href="#contact">/contact</a></li>
+                <li><button id="theme-toggle" class="btn-icon">[!] THEME_SWITCH</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="fade-in">
+            <h1>HI, I'M <span class="highlight">{{ profile.name|default:"NIKHIL GOGINENI" }}</span></h1>
+            <p class="subtitle">{{ profile.title|default:"B.TECH DATA SCIENCE STUDENT & BACKEND DEVELOPER" }}</p>
+            <div class="hero-btns">
+                <a href="#projects" class="btn btn-primary">[ VIEW_PROJECTS ]</a>
+                {% if profile.resume_file %}
+                <a href="{{ profile.resume_file.url }}" class="btn" target="_blank">[ DOWNLOAD_RESUME ]</a>
+                {% else %}
+                <a href="{% static 'resume.pdf' %}" class="btn" target="_blank">[ DOWNLOAD_RESUME ]</a>
+                {% endif %}
+            </div>
+        </section>
+
+        <section id="about" class="fade-in">
+            <h2>ABOUT</h2>
+            <p>{{ profile.bio|default:"I am a Data Science student with a strong foundation in backend development and machine learning. I specialize in building end-to-end systems using Python, Django, and Java." }}</p>
+        </section>
+
+        <section id="experience" class="fade-in">
+            <h2>EXPERIENCE</h2>
+            <div class="timeline">
+                {% for exp in experiences %}
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>{{ exp.role }}</h3>
+                        <h4>{{ exp.company }}</h4>
+                        <span class="period">{{ exp.period }}</span>
+                        <p>{{ exp.description }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>--- NO_DATA ---</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="projects" class="fade-in">
+            <h2>PROJECTS</h2>
+            <div class="project-grid">
+                {% for project in projects %}
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>{{ project.title }}</h3>
+                        <p>{{ project.description }}</p>
+                        <div class="tech-stack">
+                            {% for tech in project.tech_list %}
+                            <span class="tech-tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" class="btn" target="_blank">[ SOURCE ]</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <p>--- NO_DATA ---</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="skills" class="fade-in">
+            <h2>SKILLS</h2>
+            <div class="skills-container">
+                {% for category, skill_list in categorized_skills.items %}
+                <div class="skill-group">
+                    <h3>{{ category }}</h3>
+                    <div class="skill-tags">
+                        {% for skill in skill_list %}
+                        <span class="skill-tag">{{ skill.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% empty %}
+                <p>--- NO_DATA ---</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="contact" class="fade-in">
+            <h2>CONTACT</h2>
+            <p>OPEN_FOR_OPPORTUNITIES = TRUE</p>
+            <div class="contact-links">
+                {% if profile.email %}
+                <a href="mailto:{{ profile.email }}" class="btn">[ EMAIL_ME ]</a>
+                {% else %}
+                <a href="mailto:nikhilgogineni.22@gmail.com" class="btn">[ EMAIL_ME ]</a>
+                {% endif %}
+
+                {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" class="btn">[ LINKEDIN ]</a>
+                {% else %}
+                <a href="https://linkedin.com/in/nikhilgogineni" target="_blank" class="btn">[ LINKEDIN ]</a>
+                {% endif %}
+                
+                {% if profile.github_url %}
+                <a href="{{ profile.github_url }}" target="_blank" class="btn">[ GITHUB ]</a>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 {{ profile.name|default:"NIKHIL GOGINENI" }} | SYSTEM_STATUS: ONLINE</p>
+    </footer>
+</body>
+</html>
