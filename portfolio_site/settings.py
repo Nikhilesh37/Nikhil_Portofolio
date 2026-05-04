@@ -77,6 +77,9 @@ if MONGODB_URI and MONGODB_URI.startswith('mongodb'):
             'NAME': os.environ.get('MONGODB_NAME', 'portfolio_db'),
             'CLIENT': {
                 'host': MONGODB_URI,
+                'serverSelectionTimeoutMS': 10000,
+                'connectTimeoutMS': 10000,
+                'socketTimeoutMS': 20000,
             },
         }
     }
