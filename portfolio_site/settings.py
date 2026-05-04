@@ -61,7 +61,7 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-MONGODB_URI = os.environ.get('MONGODB_URI', '')
+MONGODB_URI = os.environ.get('MONGODB_URI') or os.environ.get('MONGODB_URL', '')
 
 # ── DIAGNOSTIC: print every env-var that starts with MONGO ──────────────────
 _mongo_vars = {k: v[:10] + '...' for k, v in os.environ.items() if 'MONGO' in k.upper()}
