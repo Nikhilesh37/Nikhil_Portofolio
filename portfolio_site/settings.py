@@ -62,7 +62,12 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 MONGODB_URI = os.environ.get('MONGODB_URI', '')
-print(f"DEBUG: Using MONGODB_URI starts with: {MONGODB_URI[:20]}...")  # Masked for security
+
+# ── DIAGNOSTIC: print every env-var that starts with MONGO ──────────────────
+_mongo_vars = {k: v[:10] + '...' for k, v in os.environ.items() if 'MONGO' in k.upper()}
+print(f"DEBUG MONGO ENV VARS: {_mongo_vars}")
+print(f"DEBUG MONGODB_URI length: {len(MONGODB_URI)}, starts: '{MONGODB_URI[:15]}'")
+# ────────────────────────────────────────────────────────────────────────────
 
 if MONGODB_URI and MONGODB_URI.startswith('mongodb'):
     # Full Atlas / SRV URI — pass through the CLIENT options so PyMongo gets it directly
@@ -76,7 +81,8 @@ if MONGODB_URI and MONGODB_URI.startswith('mongodb'):
         }
     }
 else:
-    # Local fallback (development)
+    # Local fallback (development only) — will fail on Render if MONGODB_URI is missing
+    print("WARNING: MONGODB_URI not set or invalid — falling back to localhost:27017")
     DATABASES = {
         'default': {
             'ENGINE': 'django_mongodb_backend',
