@@ -61,20 +61,30 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-MONGODB_URI = os.environ.get('MONGODB_URI', 'localhost')
-print(f"DEBUG: Using MONGODB_URI: {MONGODB_URI[:15]}...") # Masked for security
+MONGODB_URI = os.environ.get('MONGODB_URI', '')
+print(f"DEBUG: Using MONGODB_URI starts with: {MONGODB_URI[:20]}...")  # Masked for security
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_mongodb_backend',
-        'NAME': os.environ.get('MONGODB_NAME', 'portfolio_db'),
-        'HOST': MONGODB_URI,
+if MONGODB_URI and MONGODB_URI.startswith('mongodb'):
+    # Full Atlas / SRV URI — pass through the CLIENT options so PyMongo gets it directly
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django_mongodb_backend',
+            'NAME': os.environ.get('MONGODB_NAME', 'portfolio_db'),
+            'CLIENT': {
+                'host': MONGODB_URI,
+            },
+        }
     }
-}
-
-# Add Port only if not in URI
-if MONGODB_URI == 'localhost':
-    DATABASES['default']['PORT'] = 27017
+else:
+    # Local fallback (development)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django_mongodb_backend',
+            'NAME': os.environ.get('MONGODB_NAME', 'portfolio_db'),
+            'HOST': 'localhost',
+            'PORT': 27017,
+        }
+    }
 
 
 # Password validation
