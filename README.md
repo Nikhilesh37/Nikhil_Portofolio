@@ -13,7 +13,7 @@ A minimalist, high-contrast portfolio website built with Django and Vanilla Java
 ## Tech Stack
 - **Backend:** Django
 - **Frontend:** HTML5, CSS3 (Vanilla), JavaScript (Vanilla)
-- **Database:** SQLite
+- **Database:** MongoDB (via MongoDB Atlas)
 
 ## Setup
 1. Create a virtual environment:
@@ -25,18 +25,23 @@ A minimalist, high-contrast portfolio website built with Django and Vanilla Java
    ```bash
    pip install -r requirements.txt
    ```
-3. Run migrations:
-   ```bash
-   python manage.py migrate
-   ```
-4. Populate data:
+3. Populate data:
    ```bash
    python manage.py populate_data
    ```
-5. Start the server:
+4. Start the server:
    ```bash
    python manage.py runserver
    ```
+
+## Render Deployment
+1. **Environment Variables:**
+   - `MONGODB_URI`: Your MongoDB Atlas connection string.
+   - `MONGODB_NAME`: The name of your database (e.g., `portfolio_db`).
+   - `SECRET_KEY`: A secure key for Django.
+   - `DEBUG`: Set to `False` in production.
+2. **IP Access:** Ensure `0.0.0.0/0` is whitelisted in MongoDB Atlas Network Access.
+3. **Shell Command:** After first deployment, use the Render Shell to run `python manage.py populate_data`.
 
 ## Design Choices
 - **Color Palette:** Strictly uses Indigo (#6366F1) as the primary accent color to avoid the "AI-generated" rainbow look.
